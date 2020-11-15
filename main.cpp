@@ -1,5 +1,11 @@
 #include <iostream>
 #include "red.h"
+#include <fstream>
+#include<stdlib.h>
+#include<time.h>
+
+void leertexto(string , red * );
+void generar_aleatoria(red *network);
 
 using namespace std;
 
@@ -131,11 +137,22 @@ int main()
         }
             break;
         case 9:{
+            cin.ignore(10000,'\n');
+            cout << "Nombre del texto a abrir: ";getline(cin,nombre);
+
+           delete network;
+            red *network= new red;
+
+            network->LeerTexto(nombre);
 
         }
             break;
-        case 10:{
 
+        case 10:{
+            cin.ignore(10000,'\n');
+            delete network;
+             red *network= new red;
+             network->GenerarRedAleatoria();
         }
             break;
         default:

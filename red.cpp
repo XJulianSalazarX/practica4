@@ -290,3 +290,108 @@ void red::OrdenarLista()
 
     n_enrutadores = ordenada;
 }
+
+bool red::ComprobarConexion(const string &nodo, const string &nodo2)
+{
+    for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+        if(router->getNombre()==nodo){
+            if(router->conexiones[nodo2] == -1){
+                return false;
+                break;
+            }
+        }
+    }
+    return true;
+}
+
+void red::LeerTexto(const string &nombretexto)
+{
+    string nodos="",linea="";
+    fstream lectura;
+
+    lectura.open(nombretexto,fstream::in|fstream::binary);
+    if(lectura.fail()){
+        cout<<"No se pudo abrir el archivo." << endl;
+    }
+    while(lectura.good()){
+        linea=lectura.get();
+        nodos.append(linea);
+    }
+
+    lectura.close();
+    nodos.pop_back();
+
+
+    int pos=0;
+
+    for(int num=0 ;pos!=-1;num++){
+        string nodo1,nodo2,costo;
+
+        pos = nodos.find(' ');
+        nodo1 = nodos.substr(0,pos);
+        pos = nodos.find(' ',pos+1);
+        nodo2 = nodos.substr(0,pos);
+        nodo2 = nodo2.substr(nodo1.size()+1);
+        pos = nodos.find('\r');
+        costo = nodos.substr(0,pos);
+        costo = costo.substr(nodo1.size()+nodo2.size()+2);
+
+        int costodomod = stoi(costo, nullptr, 10);
+
+
+        if (true!=comprobar_Enrutador(nodo1)) agregar_Enrutador(nodo1);
+        if (true!=comprobar_Enrutador(nodo2)) agregar_Enrutador(nodo2);
+        Conectar2Enrutadores(nodo1, nodo2, costodomod);
+
+        pos = nodos.find('\n');
+        nodos = nodos.substr(pos+1);
+
+
+    }
+    ActualizarTabla();
+}
+
+void red::GenerarRedAleatoria()
+{
+    srand(time(NULL));
+    int  num=2+rand()%(22-2);
+    string nodo;
+    list<string> l_nodos;
+
+    for (int i=0,j=65;i<num ; i++,j++) {
+        if(j==91) j=97;
+        if(j==123) j=65;
+        nodo=j;
+        while(comprobar_Enrutador(nodo)){
+            nodo+=nodo;
+        }
+        agregar_Enrutador(nodo);
+    }
+    ActualizarTabla();
+
+    for(auto i=n_enrutadores.begin();i!=n_enrutadores.end();i++){
+        l_nodos.push_back(i->getNombre());
+    }
+
+    for(auto i=l_nodos.begin();i!=l_nodos.end();i++){
+        int num_enlaces= 2+ rand()%(l_nodos.size()-2);
+        nodo = *i;
+        for(int j=0;j<num_enlaces;j++){
+            string nodo2;
+            int enlace = rand()%(l_nodos.size());
+            int pos = 0;
+            for(auto nombre=l_nodos.begin();nombre!=l_nodos.end();nombre++){
+                if(pos==enlace){
+                    nodo2 = *nombre;
+                    break;
+                }
+                pos ++;
+            }
+            if(ComprobarConexion(nodo,nodo2)==false){
+                int costo = 1 + rand()%(100);
+                Conectar2Enrutadores(nodo,nodo2,costo);
+            }
+        }
+    }
+    ActualizarTabla();
+}
