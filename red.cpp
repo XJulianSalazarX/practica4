@@ -218,34 +218,60 @@ void red::ActualizarTabla()
 
 void red::TablaConexionesRed()
 {
-    cout << " \t";
-    for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
-        cout << router->getNombre() << "\t";
-    }
-    cout << endl << endl;
-    for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
-        cout << router->getNombre() << "\t";
-        for(router->it=router->conexiones.begin();router->it!=router->conexiones.end();router->it++){
-            cout << router->it->second << "\t";
+    if(n_enrutadores.size()<=21){
+        cout << " \t";
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << "\t";
         }
         cout << endl << endl;
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << "\t";
+            for(router->it=router->conexiones.begin();router->it!=router->conexiones.end();router->it++){
+                cout << router->it->second << "\t";
+            }
+            cout << endl << endl;
+        }
+    }
+
+    else{
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << ":" << endl;
+            for(router->it=router->conexiones.begin();router->it!=router->conexiones.end();router->it++){
+                cout << router->getNombre() << "-->" << router->it->first << "=" << router->it->second;
+                cout << " \t";
+            }
+            cout << endl << endl;
+        }
     }
 }
 
 void red::TablaCostosRed()
 {
-    cout << " \t";
-    for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
-        cout << router->getNombre() << "\t";
-    }
-    cout << endl << endl;
-
-    for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
-        cout << router->getNombre() << "\t";
-        for(auto router2=n_enrutadores.begin();router2!=n_enrutadores.end();router2++){
-            cout << Costo(router->getNombre(),router2->getNombre()) << "\t";
+    if(n_enrutadores.size()<=21){
+        cout << " \t";
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << "\t";
         }
         cout << endl << endl;
+
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << "\t";
+            for(auto router2=n_enrutadores.begin();router2!=n_enrutadores.end();router2++){
+                cout << Costo(router->getNombre(),router2->getNombre()) << "\t";
+            }
+            cout << endl << endl;
+        }
+    }
+
+    else{
+        for(auto router=n_enrutadores.begin();router!=n_enrutadores.end();router++){
+            cout << router->getNombre() << ":" << endl;
+            for(router->it=router->conexiones.begin();router->it!=router->conexiones.end();router->it++){
+                cout << router->getNombre() << "-->" << router->it->first << "=";
+                cout << Costo(router->getNombre(),router->it->first) << " \t";
+            }
+            cout << endl << endl;
+        }
     }
 }
 
@@ -354,7 +380,8 @@ void red::LeerTexto(const string &nombretexto)
 void red::GenerarRedAleatoria()
 {
     srand(time(NULL));
-    int  num=2+rand()%(22-2);
+    int  num=2+rand()%(101-2);
+    cout << "Nodos generados: " << num << endl;
     string nodo;
     list<string> l_nodos;
 

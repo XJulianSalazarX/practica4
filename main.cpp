@@ -4,9 +4,6 @@
 #include<stdlib.h>
 #include<time.h>
 
-void leertexto(string , red * );
-void generar_aleatoria(red *network);
-
 using namespace std;
 
 int main()
@@ -92,13 +89,13 @@ int main()
             cout << "Nombre del primer enrutador: ";getline(cin,nombre);
             cout << "Nombre del segundo enrutador: ";getline(cin,nombre2);
             if(network->comprobar_Enrutador(nombre) and network->comprobar_Enrutador(nombre2)){
-               if(network->Costo(nombre,nombre2)==-1)
-                cout << "los enrutadores" << nombre << " y " << nombre2 << " No estan conectados.\n";
-               else{
-                network->Conectar2Enrutadores(nombre,nombre2,-1);
-                network->ActualizarTabla();
-                cout << "Los enrutadores han sido desconectados.\n";
-               }
+                if(network->Costo(nombre,nombre2)==-1)
+                    cout << "los enrutadores" << nombre << " y " << nombre2 << " No estan conectados.\n";
+                else{
+                    network->Conectar2Enrutadores(nombre,nombre2,-1);
+                    network->ActualizarTabla();
+                    cout << "Los enrutadores han sido desconectados.\n";
+                }
             }
             else
                 cout << "Uno o ambos enrutados no existen.\n";
@@ -140,7 +137,7 @@ int main()
             cin.ignore(10000,'\n');
             cout << "Nombre del texto a abrir: ";getline(cin,nombre);
 
-           delete network;
+            delete network;
             red *network= new red;
 
             network->LeerTexto(nombre);
@@ -151,8 +148,8 @@ int main()
         case 10:{
             cin.ignore(10000,'\n');
             delete network;
-             red *network= new red;
-             network->GenerarRedAleatoria();
+            red *network= new red;
+            network->GenerarRedAleatoria();
         }
             break;
         default:
