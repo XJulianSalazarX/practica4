@@ -6,6 +6,12 @@
 
 using namespace std;
 
+/*
+ * Integrantes:
+    * Diego Zuluaga.
+    * Julian Salazar.
+ */
+
 int main()
 {
     short opc = 0,costo=0;
@@ -24,6 +30,8 @@ int main()
             cout << endl;
             network->TablaConexionesRed();
             cout << "\nTabla de costos: \n" << endl;
+            cout << "\"Si el valor es -1 los enrutadores no se puede intercambiar informacion entre los enrutadores.\"\n";
+            cout << endl;
             network->TablaCostosRed();
         }
             break;
